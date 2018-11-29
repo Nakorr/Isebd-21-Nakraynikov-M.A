@@ -30,11 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTeplohod));
             this.pictureBoxTeplohod = new System.Windows.Forms.PictureBox();
-            this.buttonCreate = new System.Windows.Forms.Button();
+            this.buttonCreate_Lokomotiv = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
+            this.buttonCreate_Teplohod = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeplohod)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,15 +48,15 @@
             this.pictureBoxTeplohod.TabIndex = 0;
             this.pictureBoxTeplohod.TabStop = false;
             // 
-            // buttonCreate
+            // buttonCreate_Lokomotiv
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(0, 0);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(95, 32);
-            this.buttonCreate.TabIndex = 1;
-            this.buttonCreate.Text = "Create";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.buttonCreate_Lokomotiv.Location = new System.Drawing.Point(0, 0);
+            this.buttonCreate_Lokomotiv.Name = "buttonCreate_Lokomotiv";
+            this.buttonCreate_Lokomotiv.Size = new System.Drawing.Size(95, 32);
+            this.buttonCreate_Lokomotiv.TabIndex = 1;
+            this.buttonCreate_Lokomotiv.Text = "Локомотив";
+            this.buttonCreate_Lokomotiv.UseVisualStyleBackColor = true;
+            this.buttonCreate_Lokomotiv.Click += new System.EventHandler(this.buttonCreate_Lokomotiv_Click);
             // 
             // buttonLeft
             // 
@@ -105,16 +106,27 @@
             this.buttonUp.UseVisualStyleBackColor = true;
             this.buttonUp.Click += new System.EventHandler(this.buttonMove_Click);
             // 
+            // buttonCreate_Teplohod
+            // 
+            this.buttonCreate_Teplohod.Location = new System.Drawing.Point(102, 0);
+            this.buttonCreate_Teplohod.Name = "buttonCreate_Teplohod";
+            this.buttonCreate_Teplohod.Size = new System.Drawing.Size(90, 32);
+            this.buttonCreate_Teplohod.TabIndex = 6;
+            this.buttonCreate_Teplohod.Text = "Теплоход";
+            this.buttonCreate_Teplohod.UseVisualStyleBackColor = true;
+            this.buttonCreate_Teplohod.Click += new System.EventHandler(this.buttonCreate_Teplohod_Click);
+            // 
             // FormTeplohod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 461);
+            this.Controls.Add(this.buttonCreate_Teplohod);
             this.Controls.Add(this.buttonUp);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonLeft);
-            this.Controls.Add(this.buttonCreate);
+            this.Controls.Add(this.buttonCreate_Lokomotiv);
             this.Controls.Add(this.pictureBoxTeplohod);
             this.Name = "FormTeplohod";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -127,11 +139,12 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxTeplohod;
-        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.Button buttonCreate_Lokomotiv;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonUp;
+        private System.Windows.Forms.Button buttonCreate_Teplohod;
     }
 }
 

@@ -13,7 +13,8 @@ namespace WindowsFormsLab
 {
     public partial class FormTeplohod : Form
     {
-        private Teplohod teplohod;
+        private Iteplohod teplohod;
+
         public FormTeplohod()
         {
             InitializeComponent();
@@ -25,19 +26,28 @@ namespace WindowsFormsLab
         {
             Bitmap bmp = new Bitmap(pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            teplohod.DrawTeplohod(gr);
+            teplohod.DrawTransport(gr);
             pictureBoxTeplohod.Image = bmp;
         }
         /// <summary>
 
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void buttonCreate_Lokomotiv_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            teplohod = new Teplohod (rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green,
-           Color.Red);
+            teplohod = new Lokomotiv(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green);
             teplohod.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxTeplohod.Width,
            pictureBoxTeplohod.Height);
-            Draw();
+            Draw();
+
+        }
+        private void buttonCreate_Teplohod_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            teplohod = new LokomotivTep(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green, Color.Red, true, true);
+            teplohod.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxTeplohod.Width,
+           pictureBoxTeplohod.Height);
+            Draw();
+
         }
         /// <summary>
         /// Обработка нажатия кнопок управления
@@ -64,6 +74,7 @@ namespace WindowsFormsLab
                     break;
             }
             Draw();
-        }
+        }
+
     }
 }

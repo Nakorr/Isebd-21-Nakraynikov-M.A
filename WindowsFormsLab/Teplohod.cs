@@ -155,6 +155,7 @@ namespace WindowsFormsLab
             br = new SolidBrush(DopColor);
             g.FillRectangle(br, _startPosX, _startPosY + 30, 90, 8);
         }
+
     }
 }
 
