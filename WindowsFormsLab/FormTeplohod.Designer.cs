@@ -32,10 +32,11 @@
             this.plusLokomativ = new System.Windows.Forms.Button();
             this.plusTep = new System.Windows.Forms.Button();
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.label = new System.Windows.Forms.Label();
-            this.maskedTextBox = new System.Windows.Forms.MaskedTextBox();
-            this.Take = new System.Windows.Forms.Button();
             this.pictureBoxTake = new System.Windows.Forms.PictureBox();
+            this.Take = new System.Windows.Forms.Button();
+            this.maskedTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.label = new System.Windows.Forms.Label();
+            this.listBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeplohod)).BeginInit();
             this.groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTake)).BeginInit();
@@ -52,7 +53,7 @@
             // 
             // plusLokomativ
             // 
-            this.plusLokomativ.Location = new System.Drawing.Point(742, 13);
+            this.plusLokomativ.Location = new System.Drawing.Point(741, 115);
             this.plusLokomativ.Name = "plusLokomativ";
             this.plusLokomativ.Size = new System.Drawing.Size(130, 61);
             this.plusLokomativ.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             // plusTep
             // 
-            this.plusTep.Location = new System.Drawing.Point(742, 81);
+            this.plusTep.Location = new System.Drawing.Point(742, 182);
             this.plusTep.Name = "plusTep";
             this.plusTep.Size = new System.Drawing.Size(130, 66);
             this.plusTep.TabIndex = 2;
@@ -83,21 +84,13 @@
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Забрать вагон";
             // 
-            // label
+            // pictureBoxTake
             // 
-            this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(29, 42);
-            this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(42, 13);
-            this.label.TabIndex = 0;
-            this.label.Text = "Место:";
-            // 
-            // maskedTextBox
-            // 
-            this.maskedTextBox.Location = new System.Drawing.Point(78, 42);
-            this.maskedTextBox.Name = "maskedTextBox";
-            this.maskedTextBox.Size = new System.Drawing.Size(36, 20);
-            this.maskedTextBox.TabIndex = 1;
+            this.pictureBoxTake.Location = new System.Drawing.Point(7, 125);
+            this.pictureBoxTake.Name = "pictureBoxTake";
+            this.pictureBoxTake.Size = new System.Drawing.Size(131, 82);
+            this.pictureBoxTake.TabIndex = 3;
+            this.pictureBoxTake.TabStop = false;
             // 
             // Take
             // 
@@ -109,19 +102,37 @@
             this.Take.UseVisualStyleBackColor = true;
             this.Take.Click += new System.EventHandler(this.Take_Click);
             // 
-            // pictureBoxTake
+            // maskedTextBox
             // 
-            this.pictureBoxTake.Location = new System.Drawing.Point(7, 125);
-            this.pictureBoxTake.Name = "pictureBoxTake";
-            this.pictureBoxTake.Size = new System.Drawing.Size(131, 82);
-            this.pictureBoxTake.TabIndex = 3;
-            this.pictureBoxTake.TabStop = false;
+            this.maskedTextBox.Location = new System.Drawing.Point(78, 42);
+            this.maskedTextBox.Name = "maskedTextBox";
+            this.maskedTextBox.Size = new System.Drawing.Size(36, 20);
+            this.maskedTextBox.TabIndex = 1;
+            // 
+            // label
+            // 
+            this.label.AutoSize = true;
+            this.label.Location = new System.Drawing.Point(29, 42);
+            this.label.Name = "label";
+            this.label.Size = new System.Drawing.Size(42, 13);
+            this.label.TabIndex = 0;
+            this.label.Text = "Место:";
+            // 
+            // listBox
+            // 
+            this.listBox.FormattingEnabled = true;
+            this.listBox.Location = new System.Drawing.Point(741, 0);
+            this.listBox.Name = "listBox";
+            this.listBox.Size = new System.Drawing.Size(138, 108);
+            this.listBox.TabIndex = 4;
+            this.listBox.Click += new System.EventHandler(this.listBoxs_SelectedIndexChanged);
             // 
             // FormTeplohod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 461);
+            this.Controls.Add(this.listBox);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.plusTep);
             this.Controls.Add(this.plusLokomativ);
@@ -147,6 +158,7 @@
         private System.Windows.Forms.Button Take;
         private System.Windows.Forms.MaskedTextBox maskedTextBox;
         private System.Windows.Forms.PictureBox pictureBoxTake;
+        private System.Windows.Forms.ListBox listBox;
     }
 }
 
