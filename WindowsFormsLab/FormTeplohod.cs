@@ -7,17 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static WindowsFormsLab.Teplohod;
 
 namespace WindowsFormsLab
 {
     public partial class FormTeplohod : Form
     {
-        private Iteplohod teplohod;
+        /// <summary>
+        /// Объект от класса-парковки
+        /// </summary>
+        depo<Iteplohod> depo;
 
         public FormTeplohod()
         {
             InitializeComponent();
+            depo = new depo<Iteplohod>(20, pictureBoxTake.Width, pictureBoxTake.Height);
+            Draw();
         }
 
         /// Метод отрисовки машины
@@ -26,55 +30,70 @@ namespace WindowsFormsLab
         {
             Bitmap bmp = new Bitmap(pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            teplohod.DrawTransport(gr);
+            depo.Draw(gr);
             pictureBoxTeplohod.Image = bmp;
         }
         /// <summary>
 
-        private void buttonCreate_Lokomotiv_Click(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            teplohod = new Lokomotiv(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green);
-            teplohod.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxTeplohod.Width,
-           pictureBoxTeplohod.Height);
-            Draw();
-
-        }
-        private void buttonCreate_Teplohod_Click(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            teplohod = new LokomotivTep(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green, Color.Red, true, true);
-            teplohod.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxTeplohod.Width,
-           pictureBoxTeplohod.Height);
-            Draw();
-
-        }
         /// <summary>
-        /// Обработка нажатия кнопок управления
+        /// Обработка нажатия кнопки "Припарковать локоматив"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonMove_Click(object sender, EventArgs e)
+        private void plusLokomativ_Click(object sender, EventArgs e)
         {
-            //получаем имя кнопки
-            string name = (sender as Button).Name;
-            switch (name)
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                case "buttonUp":
-                    teplohod.MoveTransport(Direction.Up);
-                    break;
-                case "buttonDown":
-                    teplohod.MoveTransport(Direction.Down);
-                    break;
-                case "buttonLeft":
-                    teplohod.MoveTransport(Direction.Left);
-                    break;
-                case "buttonRight":
-                    teplohod.MoveTransport(Direction.Right);
-                    break;
+                var teplohod = new Lokomotiv(100, 1000, dialog.Color);
+                int place = depo + teplohod;
+                Draw();
             }
-            Draw();
         }
 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void plusTep_Click(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                ColorDialog dialogDop = new ColorDialog();
+                if (dialogDop.ShowDialog() == DialogResult.OK)
+                {
+                    var teplohod = new LokomotivTep(100, 1000, dialog.Color, dialogDop.Color, true, true);
+                    int place = depo + teplohod;
+                    Draw();
+                }
+            }
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки "Забрать"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        ///   
+        private void Take_Click(object sender, EventArgs e)
+        {
+            if (maskedTextBox.Text != "")
+            {
+                var teplohod = depo - Convert.ToInt32(maskedTextBox.Text);
+                if (teplohod != null)
+                {
+                    Bitmap bmp = new Bitmap(pictureBoxTake.Width, pictureBoxTake.Height);
+                    Graphics gr = Graphics.FromImage(bmp);
+                     teplohod.SetPosition(5, 5, pictureBoxTake.Width, pictureBoxTake.Height);
+                    teplohod.DrawTransport(gr);
+                    pictureBoxTake.Image = bmp;
+                }
+                else
+                {
+                    Bitmap bmp = new Bitmap(pictureBoxTake.Width, pictureBoxTake.Height);
+                    pictureBoxTake.Image = bmp;
+                }
+                    Draw();
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsLab
 {
-    interface Iteplohod
+   public interface Iteplohod
     {
         /// <summary>
         /// Установка позиции
