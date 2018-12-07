@@ -13,25 +13,34 @@ namespace WindowsFormsLab
     public partial class FormTeplohod : Form
     {
         /// <summary>
-        /// Объект от класса-парковки
+        /// Объект от класса-уровней
         /// </summary>
-        depo<Iteplohod> depo;
+        LevelDepo depos;
+        private const int countLevel = 5;
 
         public FormTeplohod()
         {
             InitializeComponent();
-            depo = new depo<Iteplohod>(20, pictureBoxTake.Width, pictureBoxTake.Height);
-            Draw();
+            depos = new LevelDepo(countLevel, pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
+            //заполнение listBox
+            for (int i = 0; i < countLevel; i++)
+            {
+                listBox.Items.Add("Уровень " + (i + 1));
+            }
+            listBox.SelectedIndex = 0;
         }
 
         /// Метод отрисовки машины
         /// </summary>
         private void Draw()
         {
-            Bitmap bmp = new Bitmap(pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-            depo.Draw(gr);
-            pictureBoxTeplohod.Image = bmp;
+            if (listBox.SelectedIndex > -1)
+            {//если выбран один из пуктов в listBox (при старте программы ни один пунктне будет выбран и может возникнуть ошибка, если мы попытаемся обратиться к элементу listBox)
+                Bitmap bmp = new Bitmap(pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
+                Graphics gr = Graphics.FromImage(bmp);
+                depos[listBox.SelectedIndex].Draw(gr);
+                pictureBoxTeplohod.Image = bmp;
+            }
         }
         /// <summary>
 
@@ -42,12 +51,20 @@ namespace WindowsFormsLab
         /// <param name="e"></param>
         private void plusLokomativ_Click(object sender, EventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (listBox.SelectedIndex > -1)
             {
-                var teplohod = new Lokomotiv(100, 1000, dialog.Color);
-                int place = depo + teplohod;
-                Draw();
+                ColorDialog dialog = new ColorDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    var tep = new Lokomotiv(100, 1000, dialog.Color);
+                    int place = depos[listBox.SelectedIndex] + tep;
+                    if (place == -1)
+                    {
+                        MessageBox.Show("Нет свободных мест", "Ошибка",
+                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    Draw();
+                }
             }
         }
 
@@ -56,15 +73,23 @@ namespace WindowsFormsLab
         /// <param name="e"></param>
         private void plusTep_Click(object sender, EventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (listBox.SelectedIndex > -1)
             {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == DialogResult.OK)
+                ColorDialog dialog = new ColorDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var teplohod = new LokomotivTep(100, 1000, dialog.Color, dialogDop.Color, true, true);
-                    int place = depo + teplohod;
-                    Draw();
+                    ColorDialog dialogDop = new ColorDialog();
+                    if (dialogDop.ShowDialog() == DialogResult.OK)
+                    {
+                        var tep = new LokomotivTep(100, 1000, dialog.Color, dialogDop.Color, true, true);
+                        int place = depos[listBox.SelectedIndex] + tep;
+                        if (place == -1)
+                        {
+                            MessageBox.Show("Нет свободных мест", "Ошибка",
+                           MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        Draw();
+                    }
                 }
             }
         }
@@ -76,24 +101,40 @@ namespace WindowsFormsLab
         ///   
         private void Take_Click(object sender, EventArgs e)
         {
-            if (maskedTextBox.Text != "")
+            if (listBox.SelectedIndex > -1)
             {
-                var teplohod = depo - Convert.ToInt32(maskedTextBox.Text);
-                if (teplohod != null)
+                if (maskedTextBox.Text != "")
                 {
-                    Bitmap bmp = new Bitmap(pictureBoxTake.Width, pictureBoxTake.Height);
-                    Graphics gr = Graphics.FromImage(bmp);
-                     teplohod.SetPosition(5, 5, pictureBoxTake.Width, pictureBoxTake.Height);
-                    teplohod.DrawTransport(gr);
-                    pictureBoxTake.Image = bmp;
-                }
-                else
-                {
-                    Bitmap bmp = new Bitmap(pictureBoxTake.Width, pictureBoxTake.Height);
-                    pictureBoxTake.Image = bmp;
-                }
+                    var tep = depos[listBox.SelectedIndex] -
+                   Convert.ToInt32(maskedTextBox.Text);
+                    if (tep != null)
+                    {
+                        Bitmap bmp = new Bitmap(pictureBoxTake.Width,
+                       pictureBoxTake.Height);
+                        Graphics gr = Graphics.FromImage(bmp);
+                        tep.SetPosition(5, 5, pictureBoxTake.Width,
+                       pictureBoxTake.Height);
+                        tep.DrawTransport(gr);
+                        pictureBoxTake.Image = bmp;
+                    }
+                    else
+                    {
+                        Bitmap bmp = new Bitmap(pictureBoxTake.Width,
+                       pictureBoxTake.Height);
+                        pictureBoxTake.Image = bmp;
+                    }
                     Draw();
+                }
             }
+        }
+        /// <summary>
+        /// Метод обработки выбора элемента на listBoxs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listBoxs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Draw();
         }
     }
 }
