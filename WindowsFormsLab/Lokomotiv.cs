@@ -12,11 +12,11 @@ namespace WindowsFormsLab
         /// <summary>
         /// Ширина отрисовки 
         /// </summary>
-        protected const int carWidth = 100;
+        protected const int tepWidth = 100;
         /// <summary>
         /// Высота отрисовки 
         /// </summary>
-        protected const int carHeight = 60;
+        protected const int tepHeight = 60;
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -36,7 +36,7 @@ namespace WindowsFormsLab
             {
                 // вправо
                 case Direction.Right:
-                    if (_startPosX + step < _pictureWidth - carWidth)
+                    if (_startPosX + step < _pictureWidth - tepWidth)
                     {
                         _startPosX += step;
                     }
@@ -57,7 +57,7 @@ namespace WindowsFormsLab
                     break;
                 //вниз
                 case Direction.Down:
-                    if (_startPosY + step < _pictureHeight - carHeight)
+                    if (_startPosY + step < _pictureHeight - tepHeight)
                     {
                         _startPosY += step;
                     }

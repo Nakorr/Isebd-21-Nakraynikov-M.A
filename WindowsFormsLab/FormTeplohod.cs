@@ -15,13 +15,13 @@ namespace WindowsFormsLab
         /// <summary>
         /// Объект от класса-уровней
         /// </summary>
-        LevelDepo parking;
+        LevelDepo depos;
         private const int countLevel = 5;
 
         public FormTeplohod()
         {
             InitializeComponent();
-            parking = new LevelDepo(countLevel, pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
+            depos = new LevelDepo(countLevel, pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
             //заполнение listBox
             for (int i = 0; i < countLevel; i++)
             {
@@ -38,7 +38,7 @@ namespace WindowsFormsLab
             {//если выбран один из пуктов в listBox (при старте программы ни один пунктне будет выбран и может возникнуть ошибка, если мы попытаемся обратиться к элементу listBox)
                 Bitmap bmp = new Bitmap(pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
                 Graphics gr = Graphics.FromImage(bmp);
-                parking[listBox.SelectedIndex].Draw(gr);
+                depos[listBox.SelectedIndex].Draw(gr);
                 pictureBoxTeplohod.Image = bmp;
             }
         }
@@ -56,8 +56,8 @@ namespace WindowsFormsLab
                 ColorDialog dialog = new ColorDialog();
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var car = new Lokomotiv(100, 1000, dialog.Color);
-                    int place = parking[listBox.SelectedIndex] + car;
+                    var tep = new Lokomotiv(100, 1000, dialog.Color);
+                    int place = depos[listBox.SelectedIndex] + tep;
                     if (place == -1)
                     {
                         MessageBox.Show("Нет свободных мест", "Ошибка",
@@ -81,8 +81,8 @@ namespace WindowsFormsLab
                     ColorDialog dialogDop = new ColorDialog();
                     if (dialogDop.ShowDialog() == DialogResult.OK)
                     {
-                        var car = new LokomotivTep(100, 1000, dialog.Color, dialogDop.Color, true, true);
-                        int place = parking[listBox.SelectedIndex] + car;
+                        var tep = new LokomotivTep(100, 1000, dialog.Color, dialogDop.Color, true, true);
+                        int place = depos[listBox.SelectedIndex] + tep;
                         if (place == -1)
                         {
                             MessageBox.Show("Нет свободных мест", "Ошибка",
@@ -105,16 +105,16 @@ namespace WindowsFormsLab
             {
                 if (maskedTextBox.Text != "")
                 {
-                    var car = parking[listBox.SelectedIndex] -
+                    var tep = depos[listBox.SelectedIndex] -
                    Convert.ToInt32(maskedTextBox.Text);
-                    if (car != null)
+                    if (tep != null)
                     {
                         Bitmap bmp = new Bitmap(pictureBoxTake.Width,
                        pictureBoxTake.Height);
                         Graphics gr = Graphics.FromImage(bmp);
-                        car.SetPosition(5, 5, pictureBoxTake.Width,
+                        tep.SetPosition(5, 5, pictureBoxTake.Width,
                        pictureBoxTake.Height);
-                        car.DrawTransport(gr);
+                        tep.DrawTransport(gr);
                         pictureBoxTake.Image = bmp;
                     }
                     else

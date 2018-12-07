@@ -11,7 +11,7 @@ namespace WindowsFormsLab
         /// <summary>
         /// Список с уровнями депо
         /// </summary>
-        List<depo<Iteplohod>> parkingStages;
+        List<depo<Iteplohod>> deposStages;
         /// <summary>
         /// Сколько мест на каждом уровне
         /// </summary>
@@ -24,10 +24,10 @@ namespace WindowsFormsLab
         /// <param name="pictureHeight"></param>
         public LevelDepo(int countStages, int pictureWidth, int pictureHeight)
         {
-            parkingStages = new List<depo<Iteplohod>>();
+            deposStages = new List<depo<Iteplohod>>();
             for (int i = 0; i < countStages; ++i)
             {
-                parkingStages.Add(new depo<Iteplohod>(countPlaces, pictureWidth, pictureHeight));
+                deposStages.Add(new depo<Iteplohod>(countPlaces, pictureWidth, pictureHeight));
             }
         }
         /// <summary>
@@ -39,9 +39,9 @@ namespace WindowsFormsLab
         {
             get
             {
-                if (ind > -1 && ind < parkingStages.Count)
+                if (ind > -1 && ind < deposStages.Count)
                 {
-                    return parkingStages[ind];
+                    return deposStages[ind];
                 }
                 return null;
             }
