@@ -6,8 +6,10 @@ using System.Windows.Forms;
 
 namespace WindowsFormsLab
 {
+    public delegate void tepDelegate(Iteplohod tep);
     static class Program
     {
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
