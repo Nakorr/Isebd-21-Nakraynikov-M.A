@@ -56,7 +56,7 @@ namespace WindowsFormsLab
         {
             if (d._places.Count == d._maxCount)
             {
-                return -1;
+                throw new depoOverflowException();
             }
             for (int i = 0; i < d._maxCount; i++)
             {
@@ -86,7 +86,7 @@ namespace WindowsFormsLab
                 d._places.Remove(index);
                 return teplohod;
             }
-            return null;
+            throw new depoNotFoundException(index);
         }
         /// <summary>
         /// Метод проверки заполнености парковочного места (ячейки массива)
@@ -141,7 +141,7 @@ namespace WindowsFormsLab
                 {
                     return _places[ind];
                 }
-                return null;
+                throw new depoNotFoundException(ind);
             }
             set
             {
@@ -150,6 +150,10 @@ namespace WindowsFormsLab
                     _places.Add(ind, value);
                     _places[ind].SetPosition(5 + ind / 5 * _placeSizeWidth + 5, ind % 5 *
                    _placeSizeHeight + 15, PictureWidth, PictureHeight);
+                }
+                else
+                {
+                    throw new depoOccupiedPlaceException(ind);
                 }
             }
         }
