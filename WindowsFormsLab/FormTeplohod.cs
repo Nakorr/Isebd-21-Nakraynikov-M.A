@@ -1,4 +1,5 @@
 ﻿using System;
+using NLog;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,10 +21,15 @@ namespace WindowsFormsLab
         /// <summary>
         /// Форма для добавления
         /// </summary>
-        FormTepConfig form;
+        FormTepConfig form;
+        /// <summary>
+        /// Логгер
+        /// </summary>
+        private Logger logger;
         public FormTeplohod()
         {
             InitializeComponent();
+            logger = LogManager.GetCurrentClassLogger();
             depos = new LevelDepo(countLevel, pictureBoxTeplohod.Width, pictureBoxTeplohod.Height);
             //заполнение listBox
             for (int i = 0; i < countLevel; i++)
@@ -57,10 +63,10 @@ namespace WindowsFormsLab
             {
                 if (maskedTextBox.Text != "")
                 {
-                    var tep = depos[listBox.SelectedIndex] -
-                   Convert.ToInt32(maskedTextBox.Text);
-                    if (tep != null)
+                    try
                     {
+                        var tep = depos[listBox.SelectedIndex] -
+                   Convert.ToInt32(maskedTextBox.Text);
                         Bitmap bmp = new Bitmap(pictureBoxTake.Width,
                        pictureBoxTake.Height);
                         Graphics gr = Graphics.FromImage(bmp);
@@ -68,14 +74,22 @@ namespace WindowsFormsLab
                        pictureBoxTake.Height);
                         tep.DrawTransport(gr);
                         pictureBoxTake.Image = bmp;
+                        logger.Info("Изъят вагон " + tep.ToString() + " с места " + maskedTextBox.Text);
+                        Draw();
                     }
-                    else
+                    catch (depoNotFoundException ex)
                     {
+                        MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
                         Bitmap bmp = new Bitmap(pictureBoxTake.Width,
                        pictureBoxTake.Height);
                         pictureBoxTake.Image = bmp;
                     }
-                    Draw();
+                     catch (Exception ex)
+                     {
+                         MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     }
                 }
             }
         }
@@ -107,19 +121,26 @@ namespace WindowsFormsLab
         /// <summary>
         /// Метод добавления вагона
         /// </summary>
-        /// <param name="car"></param>
-        private void AddTep(Iteplohod car)
+        /// <param name="tep"></param>
+        private void AddTep(Iteplohod tep)
         {
-            if (car != null && listBox.SelectedIndex > -1)
+            if (tep != null && listBox.SelectedIndex > -1)
             {
-                int place = depos[listBox.SelectedIndex] + car;
-                if (place > -1)
+                try
                 {
+                    int place = depos[listBox.SelectedIndex] + tep;
+                    logger.Info("Добавлен вагон " + tep.ToString() + " на место " + place);
                     Draw();
                 }
-                else
+                catch (depoOverflowException ex)
                 {
-                    MessageBox.Show("Вагон не удалось поставить");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -132,15 +153,17 @@ namespace WindowsFormsLab
         {
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (depos.SaveData(saveFileDialog.FileName))
+                try
                 {
+                    depos.SaveData(saveFileDialog.FileName);
                     MessageBox.Show("Сохранение прошло успешно", "Результат",
                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -153,15 +176,22 @@ namespace WindowsFormsLab
         {
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (depos.LoadData(openFileDialog.FileName))
+                try
                 {
+                    depos.LoadData(openFileDialog.FileName);
                     MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
-                   MessageBoxIcon.Information);
+                    MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                 }
-                else
+                catch (depoOccupiedPlaceException ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 Draw();
             }
