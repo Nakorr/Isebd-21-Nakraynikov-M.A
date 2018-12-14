@@ -17,7 +17,10 @@ namespace WindowsFormsLab
         /// </summary>
         LevelDepo depos;
         private const int countLevel = 5;
-
+        /// <summary>
+        /// Форма для добавления
+        /// </summary>
+        FormTepConfig form;
         public FormTeplohod()
         {
             InitializeComponent();
@@ -40,57 +43,6 @@ namespace WindowsFormsLab
                 Graphics gr = Graphics.FromImage(bmp);
                 depos[listBox.SelectedIndex].Draw(gr);
                 pictureBoxTeplohod.Image = bmp;
-            }
-        }
-        /// <summary>
-
-        /// <summary>
-        /// Обработка нажатия кнопки "Припарковать локоматив"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void plusLokomativ_Click(object sender, EventArgs e)
-        {
-            if (listBox.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var tep = new Lokomotiv(100, 1000, dialog.Color);
-                    int place = depos[listBox.SelectedIndex] + tep;
-                    if (place == -1)
-                    {
-                        MessageBox.Show("Нет свободных мест", "Ошибка",
-                       MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    Draw();
-                }
-            }
-        }
-
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void plusTep_Click(object sender, EventArgs e)
-        {
-            if (listBox.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var tep = new LokomotivTep(100, 1000, dialog.Color, dialogDop.Color, true, true);
-                        int place = depos[listBox.SelectedIndex] + tep;
-                        if (place == -1)
-                        {
-                            MessageBox.Show("Нет свободных мест", "Ошибка",
-                           MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        Draw();
-                    }
-                }
             }
         }
         /// <summary>
@@ -135,6 +87,41 @@ namespace WindowsFormsLab
         private void listBoxs_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки "Добавить автомобиль"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <summary>
+        /// Обработка нажатия кнопки "Добавить вагон"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSetTep_Click(object sender, EventArgs e)
+        {
+            form = new FormTepConfig();
+            form.AddEvent(AddTep);
+            form.Show();
+        }
+        /// <summary>
+        /// Метод добавления вагона
+        /// </summary>
+        /// <param name="car"></param>
+        private void AddTep(Iteplohod car)
+        {
+            if (car != null && listBox.SelectedIndex > -1)
+            {
+                int place = depos[listBox.SelectedIndex] + car;
+                if (place > -1)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Вагон не удалось поставить");
+                }
+            }
         }
     }
 }

@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.pictureBoxTeplohod = new System.Windows.Forms.PictureBox();
-            this.plusLokomativ = new System.Windows.Forms.Button();
-            this.plusTep = new System.Windows.Forms.Button();
+            this.buttonSetTep = new System.Windows.Forms.Button();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.pictureBoxTake = new System.Windows.Forms.PictureBox();
             this.Take = new System.Windows.Forms.Button();
@@ -51,25 +50,15 @@
             this.pictureBoxTeplohod.TabIndex = 0;
             this.pictureBoxTeplohod.TabStop = false;
             // 
-            // plusLokomativ
+            // buttonSetTep
             // 
-            this.plusLokomativ.Location = new System.Drawing.Point(741, 115);
-            this.plusLokomativ.Name = "plusLokomativ";
-            this.plusLokomativ.Size = new System.Drawing.Size(130, 61);
-            this.plusLokomativ.TabIndex = 1;
-            this.plusLokomativ.Text = "Добавить Локомотив";
-            this.plusLokomativ.UseVisualStyleBackColor = true;
-            this.plusLokomativ.Click += new System.EventHandler(this.plusLokomativ_Click);
-            // 
-            // plusTep
-            // 
-            this.plusTep.Location = new System.Drawing.Point(742, 182);
-            this.plusTep.Name = "plusTep";
-            this.plusTep.Size = new System.Drawing.Size(130, 66);
-            this.plusTep.TabIndex = 2;
-            this.plusTep.Text = "Добавить Теплоход";
-            this.plusTep.UseVisualStyleBackColor = true;
-            this.plusTep.Click += new System.EventHandler(this.plusTep_Click);
+            this.buttonSetTep.Location = new System.Drawing.Point(748, 164);
+            this.buttonSetTep.Name = "buttonSetTep";
+            this.buttonSetTep.Size = new System.Drawing.Size(130, 61);
+            this.buttonSetTep.TabIndex = 1;
+            this.buttonSetTep.Text = "Добавить вагон";
+            this.buttonSetTep.UseVisualStyleBackColor = true;
+            this.buttonSetTep.Click += new System.EventHandler(this.buttonSetTep_Click);
             // 
             // groupBox
             // 
@@ -123,7 +112,7 @@
             this.listBox.FormattingEnabled = true;
             this.listBox.Location = new System.Drawing.Point(741, 0);
             this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(138, 108);
+            this.listBox.Size = new System.Drawing.Size(138, 147);
             this.listBox.TabIndex = 4;
             this.listBox.Click += new System.EventHandler(this.listBoxs_SelectedIndexChanged);
             // 
@@ -134,8 +123,7 @@
             this.ClientSize = new System.Drawing.Size(884, 461);
             this.Controls.Add(this.listBox);
             this.Controls.Add(this.groupBox);
-            this.Controls.Add(this.plusTep);
-            this.Controls.Add(this.plusLokomativ);
+            this.Controls.Add(this.buttonSetTep);
             this.Controls.Add(this.pictureBoxTeplohod);
             this.Name = "FormTeplohod";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -151,8 +139,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxTeplohod;
-        private System.Windows.Forms.Button plusLokomativ;
-        private System.Windows.Forms.Button plusTep;
+        private System.Windows.Forms.Button buttonSetTep;
         private System.Windows.Forms.GroupBox groupBox;
         private System.Windows.Forms.Label label;
         private System.Windows.Forms.Button Take;
