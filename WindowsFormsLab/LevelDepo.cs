@@ -70,8 +70,6 @@ namespace WindowsFormsLab
             }
             using (FileStream fs = new FileStream(filename, FileMode.Create))
             {
-                using (BufferedStream bs = new BufferedStream(fs))
-                {
                     //Записываем количество уровней
                     WriteToFile("CountLeveles:" + deposStages.Count +
                    Environment.NewLine, fs);
@@ -79,28 +77,24 @@ namespace WindowsFormsLab
                     {
                         //Начинаем уровень
                         WriteToFile("Level" + Environment.NewLine, fs);
-                        for (int i = 0; i < countPlaces; i++)
+                        foreach (Iteplohod tep in level)
                         {
-                            try
-                            {
-                                var tep = level[i];
-                                //если место не пустое
-                                //Записываем тип вагона
+                        //если место не пустое
+                        //Записываем тип вагона
                                 if (tep.GetType().Name == "Lokomotiv")
                                 {
-                                    WriteToFile(i + ":Lokomotiv:", fs);
+                                    WriteToFile(level.GetKey + ":Lokomotiv:", fs);
                                 }
                                 if (tep.GetType().Name == "LokomotivTep")
                                 {
-                                    WriteToFile(i + ":LokomotivTep:", fs);
+                                    WriteToFile(level.GetKey + ":LokomotivTep:", fs);
                                 }
                                 //Записываемые параметры
                                 WriteToFile(tep + Environment.NewLine, fs);
-                            }
-                            catch { }
+                            
                         }
                     }
-                }
+              
             }
         }
         /// <summary>
@@ -180,6 +174,14 @@ namespace WindowsFormsLab
                 }
                 deposStages[counter][Convert.ToInt32(strs[i].Split(':')[0])] = tep;
             }
+
+        }
+        /// <summary>
+        /// Сортировка уровней
+        /// </summary>
+        public void Sort()
+        {
+            deposStages.Sort();
         }
     }
 }

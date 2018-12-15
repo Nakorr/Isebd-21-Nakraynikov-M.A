@@ -102,12 +102,6 @@ namespace WindowsFormsLab
         {
             Draw();
         }
-        /// <summary>
-        /// Обработка нажатия кнопки "Добавить автомобиль"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <summary>
         /// Обработка нажатия кнопки "Добавить вагон"
         /// </summary>
         /// <param name="sender"></param>
@@ -135,6 +129,11 @@ namespace WindowsFormsLab
                 catch (depoOverflowException ex)
                 {
                     MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                }
+                catch (depoAlreadyHaveException ex)
+                {
+                    MessageBox.Show(ex.Message, "Дублирование", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
@@ -195,6 +194,17 @@ namespace WindowsFormsLab
                 }
                 Draw();
             }
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки "Сортировка"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            depos.Sort();
+            Draw();
+            logger.Info("Сортировка уровней");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Drawing;
 
 namespace WindowsFormsLab
 {
-    public class depo<T> where T : class, Iteplohod
+    public class depo<T> : IEnumerator<T>, IEnumerable<T>, IComparable<depo<T>> where T : class, Iteplohod
     {/// <summary>
      /// Массив объектов, которые храним
      /// </summary>
@@ -33,6 +34,17 @@ namespace WindowsFormsLab
         /// </summary>
         private int _placeSizeHeight = 60;
         /// <summary>
+        /// Текущий элемент для вывода через IEnumerator (будет обращаться по своему индексу к ключу словаря, по которму будет возвращаться запись)
+        /// </summary>
+        private int _currentIndex;
+        public int GetKey
+        {
+            get
+            {
+                return _places.Keys.ToList()[_currentIndex];
+            }
+        }
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="sizes">Количество мест в депо</param>
@@ -42,6 +54,7 @@ namespace WindowsFormsLab
         {
             _maxCount = sizes;
             _places = new Dictionary<int, T>();
+            _currentIndex = -1;
             PictureWidth = pictureWidth;
             PictureHeight = pictureHeight;
         }
@@ -57,6 +70,10 @@ namespace WindowsFormsLab
             if (d._places.Count == d._maxCount)
             {
                 throw new depoOverflowException();
+            }
+            if (d._places.ContainsValue(teplohod))
+            {
+                throw new depoAlreadyHaveException();
             }
             for (int i = 0; i < d._maxCount; i++)
             {
@@ -104,10 +121,9 @@ namespace WindowsFormsLab
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            var keys = _places.Keys.ToList();
-            for (int i = 0; i < _places.Count; i++)
+            foreach (var tep in _places)
             {
-                _places[keys[i]].DrawTransport(g);
+                tep.Value.DrawTransport(g);
             }
         }
         /// <summary>
@@ -157,6 +173,116 @@ namespace WindowsFormsLab
                 }
             }
         }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для получения текущего элемента
+        /// </summary>
+        public T Current
+        {
+            get
+            {
+                return _places[_places.Keys.ToList()[_currentIndex]];
+            }
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для получения текущего элемента
+        /// </summary>
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator, вызываемый при удалении объекта
+        /// </summary>
+        public void Dispose()
+        {
+            _places.Clear();
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для перехода к следующему элементу или началу коллекции
+        /// </summary>
+        /// <returns></returns>
+        public bool MoveNext()
+        {
+            if (_currentIndex + 1 >= _places.Count)
+            {
+                Reset();
+                return false;
+            }
+            _currentIndex++;
+            return true;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для сброса и возврата к началу коллекции
+        /// </summary>
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerable
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerable
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        /// <summary>
+        /// Метод интерфейса IComparable
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(depo<T> other)
+        {
+            if (_places.Count > other._places.Count)
+            {
+                return -1;
+            }
+            else if (_places.Count < other._places.Count)
+            {
+                return 1;
+            }
+            else if (_places.Count > 0)
+            {
+                var thisKeys = _places.Keys.ToList();
+                var otherKeys = other._places.Keys.ToList();
+                for (int i = 0; i < _places.Count; ++i)
+                {
+                    if (_places[thisKeys[i]] is Lokomotiv && other._places[thisKeys[i]] is
+                   LokomotivTep)
+                    {
+                        return 1;
+                    }
+                    if (_places[thisKeys[i]] is LokomotivTep && other._places[thisKeys[i]] is
+                    Lokomotiv)
+                    {
+                        return -1;
+                    }
+                    if (_places[thisKeys[i]] is Lokomotiv && other._places[thisKeys[i]] is Lokomotiv)
+                    {
+                        return (_places[thisKeys[i]] is
+                       Lokomotiv).CompareTo(other._places[thisKeys[i]] is Lokomotiv);
+                    }
+                    if (_places[thisKeys[i]] is LokomotivTep && other._places[thisKeys[i]] is
+                    LokomotivTep)
+                    {
+                        return (_places[thisKeys[i]] is
+                       LokomotivTep).CompareTo(other._places[thisKeys[i]] is LokomotivTep);
+                    }
+                }
+            }
+            return 0;
+        }
     }
 }
 
