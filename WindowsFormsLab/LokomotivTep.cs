@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace WindowsFormsLab
 {
-    public class LokomotivTep : Lokomotiv
+    public class LokomotivTep : Lokomotiv, IComparable<LokomotivTep>, IEquatable<LokomotivTep>
     {
         /// <summary>
         /// Дополнительный цвет
@@ -86,6 +86,90 @@ namespace WindowsFormsLab
         public override string ToString()
         {
             return base.ToString() + ";" + DopColor.Name + ";" + Truba + ";" + Danger;
+        }
+        /// <summary>
+        /// Метод интерфейса IComparable для класса LokomotivTep
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(LokomotivTep other)
+        {
+            var res = (this is Lokomotiv).CompareTo(other is Lokomotiv);
+            if (res != 0)
+            {
+                return res;
+            }
+            if (DopColor != other.DopColor)
+            {
+                DopColor.Name.CompareTo(other.DopColor.Name);
+            }
+            if (Truba != other.Truba)
+            {
+                return Truba.CompareTo(other.Truba);
+            }
+            if (Danger != other.Danger)
+            {
+                return Danger.CompareTo(other.Danger);
+            }
+            return 0;
+        }
+        /// Метод интерфейса IEquatable для класса LokomotivTep
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(LokomotivTep other)
+        {
+            var res = (this as Lokomotiv).Equals(other as Lokomotiv);
+            if (!res)
+            {
+                return res;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            if (Truba != other.Truba)
+            {
+                return false;
+            }
+            if (Danger != other.Danger)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Перегрузка метода от object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            LokomotivTep LokomotivObj = obj as LokomotivTep;
+            if (LokomotivObj == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(LokomotivObj);
+            }
+        }
+        /// <summary>
+        /// Перегрузка метода от object
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
